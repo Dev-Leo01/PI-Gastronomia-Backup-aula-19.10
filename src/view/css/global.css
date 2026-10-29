@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+}
+
+.root {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    align-content: center; /* centralização na vertical de
+    elementos incorporados a essa div, ou seja, mesmo valor para
+    margem superior e inferior */
+    justify-content: center; /* centralização na horizontal de
+    elementos incorporados a essa div, ou seja, mesmo valor para
+    margem à esquerda à direita */
+    gap: 3rem;
+
+}

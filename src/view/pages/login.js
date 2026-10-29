@@ -1,0 +1,73 @@
+const renderLoginPage = () => {
+    const container = document.createElement('div');
+    container.style.height = '100vh';
+    
+    const form = document.createElement('form');
+
+    const labelEmail = document.createElement('label');
+    labelEmail.setAttribute('for', 'email');
+
+    const inputEmail = document.createElement('input');
+    inputEmail.id = 'email';
+    inputEmail.type = 'email';
+    inputEmail.name = 'email';
+    inputEmail.placeholder = 'example@email.com';
+    inputEmail.required = true;
+
+    const labelSenha = document.createElement('label');
+    labelSenha.setAttribute('for', 'senha');
+
+    const inputSenha = document.createElement('input');
+    inputSenha.id = 'senha';
+    inputSenha.type = 'password';
+    inputSenha.name = 'senha';
+    inputSenha.required = true;
+
+    const button = document.createElement('button');
+    button.type = 'submit';
+    button.textContent = 'Entrar';
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const emailValue = inputEmail.value.trim();
+        const senhaValue = inputSenha.value.trim();
+        const usuario = {
+            emailValue,
+            senhaValue
+        }
+        try {
+            const resultado = await fetch("http://localhost:3000/autenticacao/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(usuario)
+                }
+            );
+            const confirmacao = await resultado.json();
+            if (!resultado.ok) {
+                alert("Contas inexistente!");
+            }
+            alert("Login realizado com sucesso!");
+            return confirmacao;
+    
+        }
+        catch (error) {
+            console.error(erro);
+            alert('Erro ao fazer login:', error);
+        }
+    });
+
+    form.appendChild(labelEmail);
+    form.appendChild(inputEmail);
+    form.appendChild(labelSenha);
+    form.appendChild(inputSenha);
+    form.appendChild(button);
+
+    container.appendChild(form);
+
+    return container;
+}
+
+export default renderLoginPage;

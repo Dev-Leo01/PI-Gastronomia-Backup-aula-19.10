@@ -3,6 +3,7 @@ import renderLoginPage from
 "./pages/login.js";
 
 const app = document.querySelector('#root');
+
 const res = await fetch(`/interface-config`);
 
 const interfaceConfig = await res.json();

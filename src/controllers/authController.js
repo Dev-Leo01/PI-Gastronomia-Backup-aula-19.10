@@ -1,4 +1,5 @@
-import AuthService from '../services/authService.js';
+import AuthService from
+    "../services/authService.js";
 
 class AuthController {
     static async cadastrar(req, res) {
@@ -12,20 +13,25 @@ class AuthController {
             if (!nome || !email || !senha) {
                 return res
                     .status(400)
-                    .json({erro: `Preencha todos os campos obrigatórios`});
+                    .json({
+                        erro: `Preencha todos os
+                            campos obrigatórios`});
             }
-            const resultado = await AuthService.cadastrar(nome, email, senha);
-            return res 
+            const resultado = await AuthService.cadastrar(
+                nome, email, senha
+            );
+            return res
                 .status(201)
-                .json({mensagem: `Usuário cadastrado com sucesso!`,
-                       usuario: resultado.user,
-                       requerConfirmacao: !resultado.session
+                .json({
+                    mensagem: `Cadastro feito com sucesso!`,
+                    usuario: resultado.user,
+                    requerConfirmacao: !resultado.session
                 });
         }
         catch (erro) {
             return res
                 .status(400)
-                .json({erro: `Falha ao cadastrar: ${erro.message}`});
+                .json({ erro: `Falha ao cadastrar: ${erro.message}` });
         }
     }
     static async login(req, res) {
@@ -38,21 +44,30 @@ class AuthController {
             if (!email || !senha) {
                 return res
                     .status(400)
-                    .json({erro: `Preencha todos os campos obrigatórios`});
+                    .json({
+                        erro: `Preencha todos os
+                            campos obrigatórios`});
             }
-            const resultado = await AuthService.login(email, senha);
-            return res 
+            const resultado = await AuthService.login(
+                email, senha
+            );
+            return res
                 .status(200)
-                .json({mensagem: `Usuário logado com sucesso!`,
-                       usuario: resultado.user,
-                       token: resultado.session.access_token
-        });
+                .json({
+                    mensagem: `Login feito com sucesso!`,
+                    usuario: resultado.user,
+                    token: resultado.session.access_token
+                });
         }
         catch (erro) {
             return res
                 .status(400)
-                .json({erro: `Falha ao logar: ${erro.message}`});
+                .json({
+                    erro: `Falha ao logar:
+                    ${erro.message}`
+                });
         }
     }
 }
+
 export default AuthController;

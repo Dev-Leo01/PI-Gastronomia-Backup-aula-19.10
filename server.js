@@ -27,7 +27,6 @@ app.get('/interface-config', (req, res) => {
     })
 });
 
-app.use(express.json());
 app.use(express.static("src/view"));
 app.use("/src/view/pages", express.static("./src/view/pages"));
 

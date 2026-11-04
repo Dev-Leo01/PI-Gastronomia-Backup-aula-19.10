@@ -1,12 +1,24 @@
-import createPasswordField from '../utils/passwordVisibility.js';
+import criarInputSenha from "../utils/senhaVisibilidade.js";
 
-const renderCadastroPage = (icons) => {
+const renderCadastroPage = (icons, navegarParaLogin) => {
     const container = document.createElement('div');
     container.style.height = '100vh';
     container.className = 'container';
 
     const form = document.createElement('form');
     form.className = 'form-login';
+
+    const linha = document.createElement('hr');
+    linha.className = 'linha';
+
+    const linkNav = document.createElement('a');
+    linkNav.className = "linkNav";
+    linkNav.textContent = 'Já possui uma conta? Faça login!'
+    linkNav.addEventListener('click', (event) => {
+        event.preventDefault();
+        navegarParaLogin();
+    });
+
 
     const labelNome = document.createElement('label');
     labelNome.setAttribute('for', 'nome');
@@ -40,8 +52,7 @@ const renderCadastroPage = (icons) => {
     inputSenha.name = 'senha';
     inputSenha.placeholder = 'Digite sua senha'
     inputSenha.required = 'true';
-
-    const passwordField = createPasswordField(inputSenha, icons);
+    const campoSenha = criarInputSenha(inputSenha, icons);
 
     const labelConfirmarSenha = document.createElement('label');
     labelConfirmarSenha.setAttribute('for', 'confirmar-senha');
@@ -53,15 +64,13 @@ const renderCadastroPage = (icons) => {
     inputConfirmarSenha.name = 'confirmar-senha';
     inputConfirmarSenha.placeholder = 'Redigite sua senha'
     inputConfirmarSenha.required = 'true';
-
-    const confirmPasswordField = createPasswordField(
-        inputConfirmarSenha,
-        icons
-    );
+    const campoConfirmarSenha = criarInputSenha(inputConfirmarSenha, icons);
 
     const button = document.createElement('button');
     button.type = 'submit';
+    button.className = 'btn-submit';
     button.textContent = 'Cadastrar'
+    button.disabled = true;
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -100,16 +109,31 @@ const renderCadastroPage = (icons) => {
         }
     });
 
+    inputConfirmarSenha.addEventListener("focusout", (event) => {
+        if (inputSenha.value !== inputConfirmarSenha.value) {
+            event.target.style.border = "2px solid red";
+            alert("Senhas não coincidem")
+            button.disabled = true;
+        }
+        else {
+            event.target.style.border = "2px solid rgb(48, 58, 255);";
+            button.disabled = false;
+        }
+    });
+
+
     form.appendChild(labelNome);
     form.appendChild(inputNome);
     form.appendChild(labelEmail);
     form.appendChild(inputEmail);
     form.appendChild(labelSenha);
-    form.appendChild(passwordField);
+    form.appendChild(campoSenha);
     form.appendChild(labelConfirmarSenha);
-    form.appendChild(confirmPasswordField);
+    form.appendChild(campoConfirmarSenha);
     container.appendChild(form);
     form.appendChild(button);
+    form.appendChild(linha);
+    form.appendChild(linkNav);
 
     return container;
 }

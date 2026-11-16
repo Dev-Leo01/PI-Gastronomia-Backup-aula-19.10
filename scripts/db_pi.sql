@@ -1,9 +1,8 @@
-/* Projeto Integrador do Senac Gastronomia em comentário com o que deve alterar/acrescentar*/
+/* Projeto Integrador do Senac Gastronomia */
 create type public.tipo_usuario as enum (
   'Apoio',
   'Auxiliar',
-  'Docente',
-  'Empresa'
+  'Docente'
 );
 
 create table if not exists public.usuario (
@@ -13,22 +12,29 @@ create table if not exists public.usuario (
   perfil_usuario public.tipo_usuario not null,
   data_registro timestamptz default now(),
   ativo boolean default true
-  /*num_registro int not null*/
+  num_registro int not null
 );
 
-create type public.porte_empresa as enum (
-  'MEI', 
-  'ME', 
-  'EPP',
-  'Médio Porte',
-  'Grande Porte'
+create table if not exists public.curso (
+  id_curso int generated always as identity primary key,
+  titulo varchar(50) unique not null,
+  cargaHoraria int not null,
+  modalidade varchar(70) not null,
+  formato varchar(50) not null
 );
 
-create table if not exists public.empresa (
-  id_empresa int generated always as identity primary key,
-  id_usuario uuid references public.usuario(id_usuario)
-  on delete cascade,
-  razao_social varchar(255) not null,
-  tipo_empresa varchar(100) not null,
-  porte public.porte_empresa not null
+create type public.tipo_periodo as enum (
+  'Manhã',
+  'Tarde',
+  'Noite',
+  'Integral'
+);
+
+create table if not exists public.turma (
+  id_turma int generated always as identity primary key,
+  cod_oferta int unique not null,
+  dataInicio date not null,
+  periodo public.tipo_periodo not null,
+  fk_curso int not null references public.curso(id_curso),
+  ativo boolean default true
 );
